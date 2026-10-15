@@ -45,7 +45,6 @@ function normalizePhone(p = '') {
 }
    const isConstraint = (e) => /constraint/i.test(String(e.message));
 
-// ---------- страницы ----------
 app.get('/', (req, res) => res.render('index', { title: 'Главная' }));
 app.get('/about', (req, res) => res.render('about', { title: 'О портале Конференции.РФ' }));
 app.get('/contact', (req, res) => res.render('contact', { title: 'Контакты' }));
