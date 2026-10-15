@@ -1,0 +1,39 @@
+<%- include('header') %>
+<h2 class="mb-1">Заявки пользователей</h2>
+<p class="text-muted mb-4">Здесь отображаются все созданные заявки.</p>
+<div class="card shadow-sm"><div class="card-body">
+  <% if (!requests.length) { %>
+    <p class="text-center text-muted mb-0">Созданных заявок пока нет.</p>
+  <% } else { %>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead><tr><th>№</th><th>ФИО</th><th>Телефон</th><th>Помещение</th><th>Дата</th><th>Оплата</th><th>Статус</th><th>Отзыв</th></tr></thead>
+      <tbody>
+        <% requests.forEach(function (r, i) { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= r.fio %></td>
+            <td><%= r.phone %></td>
+            <td><%= r.room_name %></td>
+            <td><%= fmtDate(r.date_start) %></td>
+            <td><%= r.payment %></td>
+            <td>
+              <%= r.status %>
+              <% if (nextStatus[r.status]) { %>
+                <form method="post" action="/admin/requests/<%= r.id %>/status" class="mt-1">
+                  <input type="hidden" name="status" value="<%= nextStatus[r.status] %>">
+                  <button class="btn btn-sm btn-outline-primary">→ <%= nextStatus[r.status] %></button>
+                </form>
+              <% } %>
+            </td>
+            <td>
+              <% if (r.rating) { %><%= r.rating %>/5<br><small><%= r.review_text %></small><% } else { %>—<% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</div></div>
+<%- include('footer') %>

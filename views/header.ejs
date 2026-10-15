@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> — Конференции.РФ</title>
+  <link rel="icon" href="/1.ico">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">Конференции.РФ</a>
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <a class="btn btn-sm text-white" href="/rooms">Помещения</a>
+      <a class="btn btn-sm text-white" href="/about">О нас</a>
+      <% if (!user) { %>
+        <a class="btn btn-light btn-sm" href="/login">Вход</a>
+        <a class="btn btn-outline-light btn-sm" href="/register">Регистрация</a>
+      <% } else if (user.role === 'admin') { %>
+        <a class="btn btn-light btn-sm" href="/admin">Админ-панель</a>
+      <% } else { %>
+        <a class="btn btn-light btn-sm" href="/dashboard">Мои заявки</a>
+        <a class="btn btn-outline-light btn-sm" href="/requests/new">Создать заявку</a>
+      <% } %>
+      <% if (user) { %>
+        <form method="post" action="/logout" class="m-0">
+          <button class="btn btn-outline-light btn-sm">Выйти</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+</nav>
+<main class="container py-4 flex-grow-1">
+<% if (errors.length) { %>
+  <div class="alert alert-danger"><ul class="mb-0">
+    <% errors.forEach(function (e) { %><li><%= e %></li><% }) %>
+  </ul></div>
+<% } %>
