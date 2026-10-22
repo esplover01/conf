@@ -22,13 +22,26 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'change-me-to-a-long-random-string',
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true, sameSite: 'lax' },
+  cookie: { httpOnly: true, sameSite: 'lax', maxAge: 1000 * 60 * 60 * 2 },
 }));
+
+const INACTIVITY_LIMIT = 20 * 60 * 1000;
+app.use((req, res, next) => {
+  if (req.session.user) {
+    const now = Date.now();
+    if (req.session.lastActivity && now - req.session.lastActivity > INACTIVITY_LIMIT)
+      return req.session.destroy(() => res.redirect('/login'));
+    req.session.lastActivity = now;
+  }
+  next();
+});
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.errors = [];
   res.locals.form = {};
+  res.locals.flash = req.session.flash || null;
+  delete req.session.flash;
   next();
 });
 
@@ -77,6 +90,7 @@ app.post('/register', (req, res) => {
         title: 'Регистрация на портале', errors: ['Логин или email уже заняты'], form: req.body });
     throw e;
   }
+  req.session.flash = { type: 'success', text: 'Регистрация успешна. Войдите' };
   res.redirect('/login');
 });
 

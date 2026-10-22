@@ -1,16 +1,1 @@
-<%- include('header') %>
-<div class="card shadow-sm mx-auto" style="max-width:500px"><div class="card-body p-4">
-  <h2 class="mb-4">Вход</h2>
-  <form method="post" action="/login">
-    <div class="mb-3">
-      <label class="form-label" for="login">Логин</label>
-      <input class="form-control" id="login" name="login" value="<%= form.login || '' %>" required>
-    </div>
-    <div class="mb-4">
-      <label class="form-label" for="password">Пароль</label>
-      <input class="form-control" type="password" id="password" name="password" required>
-    </div>
-    <button class="btn btn-primary w-100">Войти</button>
-  </form>
-</div></div>
-<%- include('footer') %>
+<%- include('auth', { mode: 'login' }) %>

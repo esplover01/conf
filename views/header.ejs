@@ -38,3 +38,6 @@
     <% errors.forEach(function (e) { %><li><%= e %></li><% }) %>
   </ul></div>
 <% } %>
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="alert alert-<%= flash.type %>"><%= flash.text %></div>
+<% } %>

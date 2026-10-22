@@ -168,3 +168,13 @@ footer a {
 .text-muted {
   color: var(--beige-muted) !important;
 }
+
+.nav-tabs {
+  --bs-nav-tabs-border-color: var(--beige-border);
+  --bs-nav-tabs-link-hover-border-color: var(--beige-border);
+  --bs-nav-tabs-link-active-color: var(--beige-text);
+  --bs-nav-tabs-link-active-bg: var(--beige-card);
+  --bs-nav-tabs-link-active-border-color: var(--beige-border) var(--beige-border) var(--beige-card);
+  --bs-nav-link-color: var(--beige-accent-dark);
+  --bs-nav-link-hover-color: var(--beige-accent);
+}
