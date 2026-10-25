@@ -1,31 +1,34 @@
 <%- include('header') %>
-<h2 class="mb-1">Личный кабинет</h2>
-<p class="text-muted mb-4">Здравствуйте, <%= user.fio %>!</p>
-<div class="card shadow-sm"><div class="card-body">
-  <% if (!requests.length) { %>
-    <p class="text-center text-muted mb-0">Заявок пока нет. <a href="/requests/new">Создать заявку</a></p>
-  <% } else { %>
-  <div class="table-responsive">
-    <table class="table table-hover align-middle mb-0">
-      <thead><tr><th>№</th><th>Помещение</th><th>Дата</th><th>Оплата</th><th>Статус</th><th>Отзыв</th></tr></thead>
-      <tbody>
-        <% requests.forEach(function (r, i) { %>
-          <tr>
-            <td><%= i + 1 %></td>
-            <td><%= r.room_name %></td>
-            <td><%= fmtDate(r.date_start) %></td>
-            <td><%= r.payment %></td>
-            <td><%= r.status %></td>
-            <td>
-              <% if (r.review_id) { %><span class="text-success">Отзыв оставлен</span>
-              <% } else if (r.status === 'Проведена') { %><a class="btn btn-sm btn-outline-primary" href="/requests/<%= r.id %>/review">Оставить отзыв</a>
-              <% } else { %>—<% } %>
-            </td>
-          </tr>
+
+<h1><%= title %></h1>
+
+<% if (errors.length) { %>
+    <ul>
+        <% errors.forEach(e=>  { %>
+            <li><%= e %></li>
+
+    <%    })  %>
+    </ul>
+<% } %>
+<h2>Список заявок</h2>
+<% if (requests && requests.length > 0) { %>
+<table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th>Название аудитории</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% requests.forEach(request => { %>
+            <tr>
+             <td><%= request.room_name %></td>
+            <td><%= request.status %></td>
+            </tr>
         <% }) %>
-      </tbody>
-    </table>
-  </div>
-  <% } %>
-</div></div>
+    </tbody>
+</table>
+<% } else { %>
+    <p>Заявок пока нет.</p>
+<% } %>
 <%- include('footer') %>

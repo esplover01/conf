@@ -1,13 +1,35 @@
 <%- include('header') %>
-<h2 class="mb-3">Список помещений</h2>
-<div class="card shadow-sm"><div class="card-body"><div class="table-responsive">
-  <table class="table table-hover mb-0">
-    <thead><tr><th>Название</th><th>Тип</th><th>Вместимость</th></tr></thead>
-    <tbody>
-      <% rooms.forEach(function (r) { %>
-        <tr><td><%= r.name %></td><td><%= r.type %></td><td><%= r.capacity %></td></tr>
-      <% }) %>
-    </tbody>
-  </table>
-</div></div></div>
+
+<h1 class="mb-4">Помещения</h1>
+<p class="text-muted">Всего помещений: <b><%= rooms.length %></b></p>
+
+<div class="mb-3">
+  <a href="/rooms" class="btn btn-sm btn-outline-primary">Все</a>
+  <a href="/rooms/type/Конференц-зал" class="btn btn-sm btn-outline-primary">Конференц-залы</a>
+  <a href="/rooms/type/Переговорная" class="btn btn-sm btn-outline-primary">Переговорные</a>
+  <a href="/rooms/type/Кабинет" class="btn btn-sm btn-outline-primary">Кабинеты</a>
+</div>
+
+<% if (rooms.length === 0) { %>
+  <div class="alert alert-info">Помещения не найдены.</div>
+<% } %>
+
+<div class="row">
+  <% rooms.forEach(r => { %>
+    <div class="col-md-6 col-12 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <h5 class="card-title mb-1"><%= r.name %></h5>
+            <span class="badge bg-info"><%= r.type %></span>
+          </div>
+          <p class="text-muted small mb-3">
+            Вместимость: <b><%= r.capacity %></b> чел.
+          </p>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
 <%- include('footer') %>

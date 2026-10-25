@@ -1,1 +1,17 @@
-<%- include('auth', { mode: 'login' }) %>
+<%- include('header') %>
+<h1><%= title %></h1>
+
+<% if (errors.length) { %>
+    <ul>
+    <% errors.forEach(e=>  { %>
+    <li><%= e %></li>
+<%    })  %>
+</ul>
+<% } %>
+<form method="POST" action="/login">
+  <input name="login" placeholder="Логин" /><br />
+  <input name="password" type="password" placeholder="Пароль" /><br />
+  <button>Войти</button>
+</form>
+
+<%- include('footer') %>

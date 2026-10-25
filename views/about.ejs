@@ -1,7 +1,19 @@
 <%- include('header') %>
-<h2 class="mb-3">О портале Конференции.РФ</h2>
-<div class="card shadow-sm"><div class="card-body">
-  <p>Портал помогает быстро забронировать помещение для конференции, встречи или рабочей сессии.</p>
-  <p class="mb-0">Выберите помещение и дату, подайте заявку, а после проведения мероприятия оставьте отзыв.</p>
-</div></div>
+
+<h1><%= title %></h1>
+
+<% if (errors.length) { %>
+    <ul>
+        <% errors.forEach(e => { %>
+            <li><%= e %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<div class="about-us">
+    <h2>О нас</h2>
+
+    <p><%= description %></p>
+</div>
+
 <%- include('footer') %>

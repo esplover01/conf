@@ -1,66 +1,139 @@
 <%- include('header') %>
-<div class="card shadow-sm mx-auto" style="max-width:650px"><div class="card-body p-4">
-  <ul class="nav nav-tabs mb-4" id="auth-tabs">
-    <li class="nav-item"><a class="nav-link <%= mode === 'login' ? 'active' : '' %>" href="/login" data-pane="login-pane">Вход</a></li>
-    <li class="nav-item"><a class="nav-link <%= mode === 'register' ? 'active' : '' %>" href="/register" data-pane="register-pane">Регистрация</a></li>
-  </ul>
 
-  <div id="login-pane" class="<%= mode === 'login' ? '' : 'd-none' %>">
-    <form method="post" action="/login">
-      <div class="mb-3">
-        <label class="form-label" for="login-login">Логин</label>
-        <input class="form-control" id="login-login" name="login" value="<%= mode === 'login' ? (form.login || '') : '' %>" required>
+<div class="row justify-content-center">
+  <div class="col-md-6 col-12">
+    <div class="card">
+      <div class="card-body">
+
+
+        <% if (typeof flash !== 'undefined' && flash) { %>
+          <div class="alert alert-<%= flash.type %>"><%= flash.text %></div>
+        <% } %>
+
+   
+        <ul class="nav nav-tabs mb-3" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link <%= mode === 'register' ? 'active' : '' %>"
+                    data-bs-toggle="tab"
+                    data-bs-target="#register-tab"
+                    type="button"
+                    role="tab">
+              Регистрация
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link <%= mode === 'login' ? 'active' : '' %>"
+                    data-bs-toggle="tab"
+                    data-bs-target="#login-tab"
+                    type="button"
+                    role="tab">
+              Вход
+            </button>
+          </li>
+        </ul>
+
+
+        <div class="tab-content">
+
+ 
+          <div class="tab-pane fade <%= mode === 'register' ? 'show active' : '' %>"
+               id="register-tab"
+               role="tabpanel">
+
+    
+            <% if (mode === 'register' && typeof errors !== 'undefined' && errors && errors.length) { %>
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  <% errors.forEach(e => { %>
+                    <li><%= e %></li>
+                  <% }) %>
+                </ul>
+              </div>
+            <% } %>
+
+            <form method="POST" action="/register">
+              <div class="mb-3">
+                <label class="form-label">Логин</label>
+                <input type="text" class="form-control" name="login"
+                       value="<%= typeof form !== 'undefined' ? (form.login || '') : '' %>"
+                       placeholder="латиница и цифры, минимум 6 символов" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Пароль</label>
+                <input type="password" class="form-control" name="password"
+                       placeholder="минимум 8 символов" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">ФИО</label>
+                <input type="text" class="form-control" name="fio"
+                       value="<%= typeof form !== 'undefined' ? (form.fio || '') : '' %>"
+                       placeholder="Иванов Иван Иванович" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Телефон</label>
+                <input type="text" class="form-control" name="phone"
+                       value="<%= typeof form !== 'undefined' ? (form.phone || '') : '' %>"
+                       placeholder="8(999)123-45-67" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email"
+                       value="<%= typeof form !== 'undefined' ? (form.email || '') : '' %>"
+                       placeholder="user@example.com" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Создать пользователя</button>
+            </form>
+
+            <p class="mt-3 text-center">
+              Уже есть аккаунт?
+              <button class="btn btn-link p-0" data-bs-toggle="tab" data-bs-target="#login-tab" type="button">
+                Войти
+              </button>
+            </p>
+          </div>
+
+     
+          <div class="tab-pane fade <%= mode === 'login' ? 'show active' : '' %>"
+               id="login-tab"
+               role="tabpanel">
+
+      
+            <% if (mode === 'login' && typeof error !== 'undefined' && error) { %>
+              <div class="alert alert-danger"><%= error %></div>
+            <% } %>
+
+            <form method="POST" action="/login">
+              <div class="mb-3">
+                <label class="form-label">Логин</label>
+                <input type="text" class="form-control" name="login" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Пароль</label>
+                <input type="password" class="form-control" name="password" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Войти</button>
+            </form>
+
+            <p class="mt-3 text-center">
+              Еще не зарегистрированы?
+              <button class="btn btn-link p-0" data-bs-toggle="tab" data-bs-target="#register-tab" type="button">
+                Регистрация
+              </button>
+            </p>
+          </div>
+
+        </div>
+
       </div>
-      <div class="mb-4">
-        <label class="form-label" for="login-password">Пароль</label>
-        <input class="form-control" type="password" id="login-password" name="password" required>
-      </div>
-      <button class="btn btn-primary w-100">Войти</button>
-    </form>
+    </div>
   </div>
+</div>
 
-  <div id="register-pane" class="<%= mode === 'register' ? '' : 'd-none' %>">
-    <form method="post" action="/register">
-      <div class="mb-3">
-        <label class="form-label" for="reg-fio">ФИО</label>
-        <input class="form-control" id="reg-fio" name="fio" placeholder="Иванов Иван Иванович" value="<%= mode === 'register' ? (form.fio || '') : '' %>" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="reg-login">Логин</label>
-        <input class="form-control" id="reg-login" name="login" value="<%= mode === 'register' ? (form.login || '') : '' %>" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="reg-email">Email</label>
-        <input class="form-control" type="email" id="reg-email" name="email" value="<%= mode === 'register' ? (form.email || '') : '' %>" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="reg-phone">Телефон</label>
-        <input class="form-control" type="tel" id="reg-phone" name="phone" placeholder="+7 (999) 123-45-67" value="<%= mode === 'register' ? (form.phone || '') : '' %>" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="reg-password">Пароль</label>
-        <input class="form-control" type="password" id="reg-password" name="password" minlength="6" required>
-      </div>
-      <div class="mb-4">
-        <label class="form-label" for="reg-confirm">Повторите пароль</label>
-        <input class="form-control" type="password" id="reg-confirm" name="confirm" required>
-      </div>
-      <button class="btn btn-primary w-100">Зарегистрироваться</button>
-    </form>
-  </div>
-</div></div>
-
-<script>
-  document.querySelectorAll('#auth-tabs .nav-link').forEach(function (tab) {
-    tab.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelectorAll('main > .alert').forEach(function (a) { a.remove(); });
-      document.querySelectorAll('#auth-tabs .nav-link').forEach(function (t) {
-        t.classList.toggle('active', t === tab);
-        document.getElementById(t.dataset.pane).classList.toggle('d-none', t !== tab);
-      });
-      history.replaceState(null, '', tab.getAttribute('href'));
-    });
-  });
-</script>
 <%- include('footer') %>

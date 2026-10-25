@@ -1,43 +1,31 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= title %> — Конференции.РФ</title>
-  <link rel="icon" href="/1.ico">
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body class="bg-light d-flex flex-column min-vh-100">
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="/">Конференции.РФ</a>
-    <div class="d-flex flex-wrap gap-2 align-items-center">
-      <a class="btn btn-sm text-white" href="/rooms">Помещения</a>
-      <a class="btn btn-sm text-white" href="/about">О нас</a>
-      <% if (!user) { %>
-        <a class="btn btn-light btn-sm" href="/login">Вход</a>
-        <a class="btn btn-outline-light btn-sm" href="/register">Регистрация</a>
-      <% } else if (user.role === 'admin') { %>
-        <a class="btn btn-light btn-sm" href="/admin">Админ-панель</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/img/1.ico">
+    <title><%= typeof title !== 'undefined' ? title : 'Конференции.РФ' %></title>
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">Конференция - РФ</span>
+    <ul class="navbar-nav ms-auto flex-row gap-2">
+      <li class="nav-item"><a class="nav-link" href="/rooms">Помещения</a></li>
+      <% if (session && session.userId) { %>
+        <li class="nav-item"><a class="nav-link" href="/dashboard">Мои заявки</a></li>
+        <li class="nav-item"><a class="nav-link" href="/create">Новая заявка</a></li>
+        <% if (session.role === 'admin') { %>
+          <li class="nav-item"><a class="nav-link" href="/admin">Админ</a></li>
+        <% } %>
+        <li class="nav-item"><a class="nav-link" href="/logout">Выход (<%= session.fio %>)</a></li>
       <% } else { %>
-        <a class="btn btn-light btn-sm" href="/dashboard">Мои заявки</a>
-        <a class="btn btn-outline-light btn-sm" href="/requests/new">Создать заявку</a>
+        <li class="nav-item"><a class="nav-link" href="/register">Регистрация</a></li>
+        <li class="nav-item"><a class="nav-link" href="/login">Вход</a></li>
       <% } %>
-      <% if (user) { %>
-        <form method="post" action="/logout" class="m-0">
-          <button class="btn btn-outline-light btn-sm">Выйти</button>
-        </form>
-      <% } %>
-    </div>
+    </ul>
   </div>
 </nav>
-<main class="container py-4 flex-grow-1">
-<% if (errors.length) { %>
-  <div class="alert alert-danger"><ul class="mb-0">
-    <% errors.forEach(function (e) { %><li><%= e %></li><% }) %>
-  </ul></div>
-<% } %>
-<% if (typeof flash !== 'undefined' && flash) { %>
-  <div class="alert alert-<%= flash.type %>"><%= flash.text %></div>
-<% } %>
+<div class="container mt-4 mb-5">
