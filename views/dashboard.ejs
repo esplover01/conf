@@ -9,26 +9,31 @@
 
     <%    })  %>
     </ul>
+
 <% } %>
+
+
 <h2>Список заявок</h2>
 <% if (requests && requests.length > 0) { %>
-<table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
-    <thead>
-        <tr>
-            <th>Название аудитории</th>
-            <th>Статус</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% requests.forEach(request => { %>
+    <table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+        <thead>
             <tr>
-             <td><%= request.room_name %></td>
-            <td><%= request.status %></td>
+                <th>Название аудитории</th>
+                <th>Статус</th>
             </tr>
-        <% }) %>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <% requests.forEach(request => { %>
+                <tr>
+                    <td><%= request.room_name %></td>
+                    <td><%= request.status %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
 <% } else { %>
     <p>Заявок пока нет.</p>
 <% } %>
+
+
 <%- include('footer') %>

@@ -8,24 +8,24 @@
     <link rel="icon" href="/img/1.ico">
     <title><%= typeof title !== 'undefined' ? title : 'Конференции.РФ' %></title>
   </head>
+
   <body>
-    <nav class="navbar navbar-light bg-light">
-  <div class="container-fluid">
-    <span class="navbar-brand mb-0 h1">Конференция - РФ</span>
-    <ul class="navbar-nav ms-auto flex-row gap-2">
-      <li class="nav-item"><a class="nav-link" href="/rooms">Помещения</a></li>
-      <% if (session && session.userId) { %>
-        <li class="nav-item"><a class="nav-link" href="/dashboard">Мои заявки</a></li>
-        <li class="nav-item"><a class="nav-link" href="/create">Новая заявка</a></li>
-        <% if (session.role === 'admin') { %>
-          <li class="nav-item"><a class="nav-link" href="/admin">Админ</a></li>
-        <% } %>
-        <li class="nav-item"><a class="nav-link" href="/logout">Выход (<%= session.fio %>)</a></li>
-      <% } else { %>
-        <li class="nav-item"><a class="nav-link" href="/register">Регистрация</a></li>
-        <li class="nav-item"><a class="nav-link" href="/login">Вход</a></li>
-      <% } %>
-    </ul>
-  </div>
-</nav>
-<div class="container mt-4 mb-5">
+    <nav class="navbar navbar-expand navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand mb-0 h1" href="/rooms">Конференция - РФ</a>
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link" href="/rooms">Помещения</a></li>
+          <% if (locals.session && locals.session.userId) { %>
+            <% if (locals.session.login === 'Conf2027') { %>
+              <li class="nav-item"><a class="nav-link fw-bold text-danger" href="/admin">Админ-панель</a></li>
+            <% } %>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">Мои заявки</a></li>
+            <li class="nav-item"><a class="nav-link text-danger" href="/logout">Выход</a></li>
+          <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/register">Регистрация</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login">Вход</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
+    <div class="container mt-4 mb-5">

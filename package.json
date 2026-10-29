@@ -1,11 +1,13 @@
 {
   "name": "conferences_rf3",
   "version": "1.0.0",
-  "description": "Портал бронирования помещений Конференции.РФ",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {

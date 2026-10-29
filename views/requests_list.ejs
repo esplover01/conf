@@ -1,0 +1,57 @@
+<%- include('header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h2 class="mb-0">
+        <%= isAdmin ? 'Панель администратора' : 'Мои заявки' %> (<%= requests.length %>)
+    </h2>
+    <% if (!isAdmin) { %>
+        <a href="/create" class="btn btn-success">+ Новая заявка</a>
+    <% } %>
+</div>
+
+<% if (requests.length === 0) { %>
+    <div class="alert alert-info">
+        <%= isAdmin ? 'Заявок нет.' : 'У вас пока нет заявок. Создайте первую!' %>
+    </div>
+<% } else { %>
+    <div class="row">
+        <% requests.forEach(r => { %>
+            <div class="col-md-6 col-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <h5 class="card-title mb-0"><%= r.room_name %></h5>
+                                <span class="badge bg-<%= r.status === 'Новая' ? 'secondary' : (r.status === 'Мероприятие назначено' ? 'primary' : 'success') %>">
+                                    <%= r.status %>
+                                </span>
+                            </div>
+                            <p class="text-muted small mb-2"><%= r.room_type %></p>
+                            
+                            <% if (isAdmin) { %>
+                                <p class="mb-1"><b>Пользователь:</b> <%= r.user_fio %> (<%= r.user_login %>)</p>
+                            <% } %>
+                            <p class="mb-1"><b>Дата:</b> <%= r.date_start %></p>
+                            <p class="mb-2"><b>Оплата:</b> <%= r.payment %></p>
+                            <a href="/request/<%= r.id %>" class="btn btn-sm btn-outline-primary mt-2">Подробнее</a>
+                        </div>
+
+                        <% if (isAdmin) { %>
+                            <form method="POST" action="/admin" class="d-flex gap-2 mt-3">
+                                <input type="hidden" name="id" value="<%= r.id %>">
+                                <select class="form-select form-select-sm" name="status">
+                                    <option value="Новая" <%= r.status === 'Новая' ? 'selected' : '' %>>Новая</option>
+                                    <option value="Мероприятие назначено" <%= r.status === 'Мероприятие назначено' ? 'selected' : '' %>>Мероприятие назначено</option>
+                                    <option value="Завершено" <%= r.status === 'Завершено' ? 'selected' : '' %>>Завершено</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+                            </form>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+<% } %>
+
+<%- include('footer') %>

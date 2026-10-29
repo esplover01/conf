@@ -1,12 +1,16 @@
 <%- include('header', { title: 'Регистрация' }) %>
+
+
 <h1><%= title %></h1>
+
 <% if (errors.length) { %>
-<ul>
-    <% errors.forEach(function(e) { %>
-        <li><%= e %></li>
-    <% }); %>
-</ul>
+    <ul>
+        <% errors.forEach(function(e) { %>
+            <li><%= e %></li>
+        <% }); %>
+    </ul>
 <% } %>
+
 <form method="POST" action="/register">
   <input name="login" placeholder="Логин" /><br />
   <input name="FIO" placeholder="ФИО" /><br />

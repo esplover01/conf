@@ -1,0 +1,80 @@
+<%- include('header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h2 class="mb-0">Заявка №<%= request.id %></h2>
+  <a href="<%= isAdmin ? '/admin' : '/dashboard' %>" class="btn btn-outline-secondary">← Назад к заявкам</a>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <h4 class="mb-0"><%= request.room_name %></h4>
+      <span class="badge bg-<%= request.status === 'Новая' ? 'secondary' :
+                             request.status === 'Мероприятие назначено' ? 'primary' : 'success' %> fs-6">
+        <%= request.status %>
+      </span>
+    </div>
+
+    <p class="text-muted mb-3">
+      <b>Тип:</b> <%= request.room_type %> |
+      <b>Вместимость:</b> <%= request.room_capacity %> чел.
+    </p>
+
+    <div class="row">
+      <div class="col-md-6 col-12 mb-2">
+        <b>Дата начала:</b> <%= request.date_start %>
+      </div>
+      <div class="col-md-6 col-12 mb-2">
+        <b>Оплата:</b> <%= request.payment %>
+      </div>
+      <div class="col-md-6 col-12 mb-2">
+        <b>Создана:</b> <%= request.created_at %>
+      </div>
+    </div>
+
+    <% if (isAdmin) { %>
+      <hr>
+      <h5>Данные пользователя</h5>
+      <div class="row">
+        <div class="col-md-6 col-12 mb-2">
+          <b>ФИО:</b> <%= request.user_fio %>
+        </div>
+        <div class="col-md-6 col-12 mb-2">
+          <b>Логин:</b> <%= request.user_login %>
+        </div>
+        <div class="col-md-6 col-12 mb-2">
+          <b>Email:</b> <%= request.user_email %>
+        </div>
+        <div class="col-md-6 col-12 mb-2">
+          <b>Телефон:</b> <%= request.user_phone %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<% if (request.review) { %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5>Отзыв</h5>
+      <p class="mb-0"><%= request.review %></p>
+    </div>
+  </div>
+<% } %>
+
+<% if (isOwner && request.status === 'Завершено' && !request.review) { %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5>Оставить отзыв</h5>
+      <form method="POST" action="/review/<%= request.id %>">
+        <div class="mb-3">
+          <label class="form-label">Ваш отзыв о мероприятии</label>
+          <textarea class="form-control" name="review" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+      </form>
+    </div>
+  </div>
+<% } %>
+
+<%- include('footer') %>
